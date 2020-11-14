@@ -11,11 +11,14 @@ class AppCoordinator {
     
     let apiManager = APIManager()
     let storageManager = StorageManager()
+    let networkManager = NetworkManager()
     
     let eventService: EventService
     
     init() {
-        eventService = EventService(apiManager: apiManager, storageManager: storageManager)
+        eventService = EventService(apiManager: apiManager,
+                                    storageManager: storageManager,
+                                    networkManager: networkManager)
     }
     
 }

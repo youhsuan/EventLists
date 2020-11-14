@@ -24,6 +24,8 @@
 		09579897255FBD0D00F2BBE8 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09579896255FBD0D00F2BBE8 /* AppCoordinator.swift */; };
 		095798DE255FD5E400F2BBE8 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095798DD255FD5E400F2BBE8 /* StorageManager.swift */; };
 		095798E6255FF0FA00F2BBE8 /* EventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095798E5255FF0FA00F2BBE8 /* EventDetail.swift */; };
+		095798EE255FFD2000F2BBE8 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095798ED255FFD2000F2BBE8 /* NetworkManager.swift */; };
+		095799002560345700F2BBE8 /* NotificationRegisteringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095798FF2560345700F2BBE8 /* NotificationRegisteringProtocol.swift */; };
 		249A7A2999BBB6F8A0E3438C /* Pods_EventLists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA84156808F66C7DAA50231B /* Pods_EventLists.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +71,8 @@
 		09579896255FBD0D00F2BBE8 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		095798DD255FD5E400F2BBE8 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		095798E5255FF0FA00F2BBE8 /* EventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetail.swift; sourceTree = "<group>"; };
+		095798ED255FFD2000F2BBE8 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		095798FF2560345700F2BBE8 /* NotificationRegisteringProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRegisteringProtocol.swift; sourceTree = "<group>"; };
 		20944CBF463B6E2A5B4B62A8 /* Pods-EventListsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventListsTests.debug.xcconfig"; path = "Target Support Files/Pods-EventListsTests/Pods-EventListsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		637265980020CE51FFB57F79 /* Pods-EventLists.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventLists.debug.xcconfig"; path = "Target Support Files/Pods-EventLists/Pods-EventLists.debug.xcconfig"; sourceTree = "<group>"; };
 		69A2434D1607DCBCB666F96E /* Pods-EventLists.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventLists.release.xcconfig"; path = "Target Support Files/Pods-EventLists/Pods-EventLists.release.xcconfig"; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 				0957986F255F9C9800F2BBE8 /* Models */,
 				09579838255F92BF00F2BBE8 /* Controllers */,
 				0957983C255F936D00F2BBE8 /* Views */,
+				095798FE256033F200F2BBE8 /* Notification */,
 				0957980B255F91B400F2BBE8 /* Assets.xcassets */,
 				0957980D255F91B400F2BBE8 /* LaunchScreen.storyboard */,
 				09579810255F91B400F2BBE8 /* Info.plist */,
@@ -197,6 +202,7 @@
 			children = (
 				0957986A255F9BD600F2BBE8 /* APIManager.swift */,
 				095798DD255FD5E400F2BBE8 /* StorageManager.swift */,
+				095798ED255FFD2000F2BBE8 /* NetworkManager.swift */,
 				0957988B255FA29300F2BBE8 /* EventService.swift */,
 			);
 			path = Services;
@@ -218,6 +224,14 @@
 				09579896255FBD0D00F2BBE8 /* AppCoordinator.swift */,
 			);
 			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		095798FE256033F200F2BBE8 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				095798FF2560345700F2BBE8 /* NotificationRegisteringProtocol.swift */,
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 		DC30775A65C606D14EB33DFA /* Pods */ = {
@@ -412,8 +426,10 @@
 				09579887255F9F3400F2BBE8 /* Event.swift in Sources */,
 				09579847255F948900F2BBE8 /* EventsViewModel.swift in Sources */,
 				095798E6255FF0FA00F2BBE8 /* EventDetail.swift in Sources */,
+				095799002560345700F2BBE8 /* NotificationRegisteringProtocol.swift in Sources */,
 				0957988C255FA29300F2BBE8 /* EventService.swift in Sources */,
 				0957983E255F938C00F2BBE8 /* EventTableViewCell.swift in Sources */,
+				095798EE255FFD2000F2BBE8 /* NetworkManager.swift in Sources */,
 				09579802255F91B300F2BBE8 /* SceneDelegate.swift in Sources */,
 				0957986B255F9BD600F2BBE8 /* APIManager.swift in Sources */,
 				095798DE255FD5E400F2BBE8 /* StorageManager.swift in Sources */,

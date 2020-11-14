@@ -10,18 +10,28 @@ import Foundation
 protocol EventServiceProtocol {
     var apiManager: APIManagerProtocol { get }
     var storageManager: StorageManagerProtocol { get }
-    func fetchEvents(by page: String, completion: @escaping (Result<EventList, APIError>) -> Void)
+    var networkManager: NetworkManagerProtocol { get }
+    func isConnectedToNetwork() -> Bool
     func syncToCoreData(model: EventModel)
+    func fetchEvents(by page: String, completion: @escaping (Result<EventList, APIError>) -> Void)
     func retrieveEventsFromCoreData(completion: (Result<[EventDetail], StorageError>) -> Void)    
 }
 
 class EventService: EventServiceProtocol {
     var apiManager: APIManagerProtocol
     var storageManager: StorageManagerProtocol
+    var networkManager: NetworkManagerProtocol
     
-    init(apiManager: APIManagerProtocol, storageManager: StorageManagerProtocol) {
+    init(apiManager: APIManagerProtocol,
+         storageManager: StorageManagerProtocol,
+         networkManager: NetworkManagerProtocol) {
         self.apiManager = apiManager
         self.storageManager = storageManager
+        self.networkManager = networkManager
+    }
+    
+    func isConnectedToNetwork() -> Bool {
+        return networkManager.isConnected
     }
     
     func fetchEvents(by page: String, completion: @escaping (Result<EventList, APIError>) -> Void) {
@@ -50,5 +60,16 @@ class EventService: EventServiceProtocol {
         storageManager.retrieve { (retrieveEventsResult) in
             completion(retrieveEventsResult)
         }
+    }
+}
+
+// MARK: - Network monitoring method 
+extension EventService {
+    func startMonitoringNetwork() {
+        networkManager.startMonitoring()
+    }
+    
+    func stopMonitoringNetowrk() {
+        networkManager.stopMonitoring()
     }
 }

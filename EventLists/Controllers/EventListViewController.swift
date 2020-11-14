@@ -26,14 +26,22 @@ class EventListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Events"
-//        viewModel.fetchEvents()
-        viewModel.retrieveEventsFromCoreData()
-        
+        self.title = "Event List"
+        viewModel.fetchData()
         viewModel.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         setupView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        addObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeObserver()
     }
 
     func setupView() {
@@ -81,5 +89,15 @@ extension EventListViewController: EventsViewModelDelegate {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+}
+
+extension EventListViewController: NotificationRegisteringProtocol {
+    func addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNetworkStatusChanged), name: .networkStatusChanged, object: nil)
+    }
+    
+    @objc func handleNetworkStatusChanged() {
+        viewModel.fetchData()
     }
 }

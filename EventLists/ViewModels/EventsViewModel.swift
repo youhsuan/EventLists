@@ -27,7 +27,15 @@ class EventsViewModel {
         self.eventService = eventService
     }
     
-    func retrieveEventsFromCoreData() {
+    func fetchData() {
+        if eventService.isConnectedToNetwork() {
+            fetchEvents()
+        } else {
+            retrieveEventsFromCoreData()
+        }
+    }
+    
+    private func retrieveEventsFromCoreData() {
         eventService.retrieveEventsFromCoreData { (result) in
             switch result {
             case .success(let eventsFromLocal):
@@ -40,13 +48,11 @@ class EventsViewModel {
         }
     }
     
-    func fetchEvents() {
+    private func fetchEvents() {
         eventService.fetchEvents(by: String(currentPage)) {[weak self] (eventListResult) in
             guard let self = self else { return }
             switch eventListResult {
             case .success(let eventList):
-                print(eventList)
-                
                 self.currentPage = eventList.page
                 self.pageSize = eventList.pageSize
                 self.total = eventList.total
@@ -58,8 +64,8 @@ class EventsViewModel {
                     // Sync to CoreData
                     self.syncToCoreData(model: model)
                 }
-                
                 self.delegate?.finishFetchingEvents()
+                
             case .failure(let apiError):
                 print("APIError occurs: \(apiError)")
             }
@@ -80,7 +86,7 @@ extension EventsViewModel {
         }
     }
     
-    func shouldLoadMore(at index: Int) -> Bool {
+    private func shouldLoadMore(at index: Int) -> Bool {
         return (index == events.count - 1) && ((currentPage + 1) * pageSize < total)
     }
 }
