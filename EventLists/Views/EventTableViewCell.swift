@@ -15,7 +15,19 @@ protocol EventCellDisplayable {
     var isFavorite: Bool { get }
 }
 
+protocol EventTableViewCellDelegate: class {
+    func didSelectFavoriteButton(cell: EventTableViewCell)
+}
+
 class EventTableViewCell: UITableViewCell {
+    
+    var item: EventCellDisplayable? {
+        didSet {
+            layoutDisplayableItem()
+        }
+    }
+    
+    weak var delegate: EventTableViewCellDelegate?
     
     private let thumbnailView: UIImageView = {
         let imageView = UIImageView()
@@ -60,8 +72,14 @@ class EventTableViewCell: UITableViewCell {
         super.draw(rect)
         setupView()
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        delegate = nil
+    }
 
-    func setDisplayableItem(_ item: EventCellDisplayable) {
+    func layoutDisplayableItem() {
+        guard let item = item else { return }
         titleLabel.text = item.title
         dateLabel.text = item.date
         thumbnailView.kf.setImage(with: URL(string: item.image))
@@ -69,8 +87,8 @@ class EventTableViewCell: UITableViewCell {
         favoriteButton.setTitle(favoriteBtnTitle, for: .normal)
     }
     
-    @objc func didSelectFavoriteButton() {
-        
+    @objc func didSelectFavoriteButton(sender: UIButton) {
+        delegate?.didSelectFavoriteButton(cell: self)
     }
     
     func setupView() {
@@ -79,7 +97,7 @@ class EventTableViewCell: UITableViewCell {
         contentView.addSubview(dateLabel)
         contentView.addSubview(favoriteButton)
         
-        favoriteButton.addTarget(self, action: #selector(didSelectFavoriteButton), for: .touchUpInside)
+        favoriteButton.addTarget(self, action: #selector(didSelectFavoriteButton(sender:)), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             thumbnailView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

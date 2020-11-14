@@ -74,7 +74,8 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         let item = viewModel.events[indexPath.row]
-        cell.setDisplayableItem(item)
+        cell.delegate = self
+        cell.item = item
         return cell
     }
     
@@ -99,5 +100,13 @@ extension EventListViewController: NotificationRegisteringProtocol {
     
     @objc func handleNetworkStatusChanged() {
         viewModel.fetchData()
+    }
+}
+
+extension EventListViewController: EventTableViewCellDelegate {
+    func didSelectFavoriteButton(cell: EventTableViewCell) {
+        if let indexRow = tableView.indexPath(for: cell)?.row {
+            print(indexRow)
+        }
     }
 }
