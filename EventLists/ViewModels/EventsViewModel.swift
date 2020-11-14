@@ -16,7 +16,12 @@ class EventsViewModel {
     var eventService: EventServiceProtocol
     weak var delegate: EventsViewModelDelegate?
     
-    var currentPage: Int = 0
+    // Pagination properties
+    private var currentPage: Int = 0
+    private var pageSize: Int = 0
+    private var total: Int = 0
+    
+    // Tableview's data source
     var events: [Event] = []
     
     init(eventService: EventServiceProtocol) {
@@ -29,8 +34,13 @@ class EventsViewModel {
             switch eventListResult {
             case .success(let eventList):
                 print(eventList)
+                
                 self.currentPage = eventList.page
-                self.events = eventList.items
+                self.pageSize = eventList.pageSize
+                self.total = eventList.total
+                
+                self.events += eventList.items
+                    
                 self.delegate?.finishFetchingEvents()
             case .failure(let apiError):
                 print("APIError occurs: \(apiError)")
@@ -38,4 +48,19 @@ class EventsViewModel {
         }
     }
     
+    
+}
+
+// MARK: - Pagination
+extension EventsViewModel {
+    func loadMoreIfNeeded(at index: Int) {
+        if shouldLoadMore(at: index) {
+            currentPage += 1
+            fetchEvents()
+        }
+    }
+    
+    func shouldLoadMore(at index: Int) -> Bool {
+        return (index == events.count - 1) && ((currentPage + 1) * pageSize < total)
+    }
 }

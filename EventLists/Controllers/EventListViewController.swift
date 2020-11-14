@@ -8,7 +8,7 @@ import UIKit
 
 class EventListViewController: UIViewController {
 
-    var viewModel: EventsViewModel?
+    let viewModel: EventsViewModel
     
     init(viewModel: EventsViewModel) {
         self.viewModel = viewModel
@@ -27,8 +27,8 @@ class EventListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Events"
-        viewModel?.fetchEvents()
-        viewModel?.delegate = self
+        viewModel.fetchEvents()
+        viewModel.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         setupView()
@@ -55,22 +55,22 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.events.count ?? 0
+        return viewModel.events.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(EventTableViewCell.self)", for: indexPath) as? EventTableViewCell,
-            let item = viewModel?.events[indexPath.row]
-        else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "\(EventTableViewCell.self)", for: indexPath) as? EventTableViewCell else {
             return UITableViewCell()
         }
-        
+        let item = viewModel.events[indexPath.row]
         cell.setDisplayableItem(item)
-        
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        viewModel.loadMoreIfNeeded(at: indexPath.row)
+    }
     
 }
 
