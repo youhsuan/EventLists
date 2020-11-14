@@ -47,15 +47,13 @@ class EventTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let favoriteLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Unfavorite"
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 14)
-        label.textAlignment = .right
-        label.sizeToFit()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let favoriteButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = .systemFont(ofSize: 14)
+        button.setTitleColor(.black, for: .normal)
+        button.contentHorizontalAlignment = .right
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     override func draw(_ rect: CGRect) {
@@ -66,15 +64,22 @@ class EventTableViewCell: UITableViewCell {
     func setDisplayableItem(_ item: EventCellDisplayable) {
         titleLabel.text = item.title
         dateLabel.text = item.date
-        favoriteLabel.text = item.isFavorite ? "Favorite" : "Unfavorite"
         thumbnailView.kf.setImage(with: URL(string: item.image))
+        let favoriteBtnTitle = item.isFavorite ? "Favorite" : "Unfavorite"
+        favoriteButton.setTitle(favoriteBtnTitle, for: .normal)
+    }
+    
+    @objc func didSelectFavoriteButton() {
+        
     }
     
     func setupView() {
         contentView.addSubview(thumbnailView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
-        contentView.addSubview(favoriteLabel)
+        contentView.addSubview(favoriteButton)
+        
+        favoriteButton.addTarget(self, action: #selector(didSelectFavoriteButton), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             thumbnailView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -84,14 +89,14 @@ class EventTableViewCell: UITableViewCell {
             
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             titleLabel.leadingAnchor.constraint(equalTo: thumbnailView.trailingAnchor, constant: 15),
-            titleLabel.trailingAnchor.constraint(equalTo: favoriteLabel.leadingAnchor, constant: 5),
+            titleLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: 5),
             
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            dateLabel.trailingAnchor.constraint(equalTo: favoriteLabel.leadingAnchor, constant: 5),
+            dateLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: 5),
             
-            favoriteLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            favoriteLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15)
+            favoriteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25)
         ])
     }
 }
