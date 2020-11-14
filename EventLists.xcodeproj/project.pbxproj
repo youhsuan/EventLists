@@ -16,6 +16,8 @@
 		0957980F255F91B400F2BBE8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0957980D255F91B400F2BBE8 /* LaunchScreen.storyboard */; };
 		0957981A255F91B400F2BBE8 /* EventListsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09579819255F91B400F2BBE8 /* EventListsTests.swift */; };
 		09579825255F91B400F2BBE8 /* EventListsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09579824255F91B400F2BBE8 /* EventListsUITests.swift */; };
+		0957983E255F938C00F2BBE8 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0957983D255F938C00F2BBE8 /* EventTableViewCell.swift */; };
+		09579847255F948900F2BBE8 /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09579846255F948900F2BBE8 /* EventsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		09579820255F91B400F2BBE8 /* EventListsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EventListsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		09579824255F91B400F2BBE8 /* EventListsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListsUITests.swift; sourceTree = "<group>"; };
 		09579826255F91B400F2BBE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0957983D255F938C00F2BBE8 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
+		09579846255F948900F2BBE8 /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +107,9 @@
 			children = (
 				095797FF255F91B300F2BBE8 /* AppDelegate.swift */,
 				09579801255F91B300F2BBE8 /* SceneDelegate.swift */,
-				09579803255F91B300F2BBE8 /* ViewController.swift */,
+				09579845255F947300F2BBE8 /* ViewModel */,
+				09579838255F92BF00F2BBE8 /* Controllers */,
+				0957983C255F936D00F2BBE8 /* Views */,
 				09579805255F91B300F2BBE8 /* Main.storyboard */,
 				0957980B255F91B400F2BBE8 /* Assets.xcassets */,
 				0957980D255F91B400F2BBE8 /* LaunchScreen.storyboard */,
@@ -129,6 +135,30 @@
 				09579826255F91B400F2BBE8 /* Info.plist */,
 			);
 			path = EventListsUITests;
+			sourceTree = "<group>";
+		};
+		09579838255F92BF00F2BBE8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				09579803255F91B300F2BBE8 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		0957983C255F936D00F2BBE8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0957983D255F938C00F2BBE8 /* EventTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		09579845255F947300F2BBE8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				09579846255F948900F2BBE8 /* EventsViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,6 +294,8 @@
 				0957980A255F91B300F2BBE8 /* EventLists.xcdatamodeld in Sources */,
 				09579804255F91B300F2BBE8 /* ViewController.swift in Sources */,
 				09579800255F91B300F2BBE8 /* AppDelegate.swift in Sources */,
+				09579847255F948900F2BBE8 /* EventsViewModel.swift in Sources */,
+				0957983E255F938C00F2BBE8 /* EventTableViewCell.swift in Sources */,
 				09579802255F91B300F2BBE8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
