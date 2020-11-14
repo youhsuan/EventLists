@@ -14,7 +14,9 @@ protocol EventServiceProtocol {
     func isConnectedToNetwork() -> Bool
     func syncToCoreData(model: EventModel)
     func fetchEvents(by page: String, completion: @escaping (Result<EventList, APIError>) -> Void)
-    func retrieveEventsFromCoreData(completion: (Result<[EventDetail], StorageError>) -> Void)    
+    func retrieveEventsFromCoreData(completion: (Result<[EventDetail], StorageError>) -> Void)
+    func getFavoriteStatus(for event: Event, completion: (Result<Bool, StorageError>) -> Void)
+    func updateFavoriteStatus(model: EventModel)
 }
 
 class EventService: EventServiceProtocol {
@@ -61,9 +63,19 @@ class EventService: EventServiceProtocol {
             completion(retrieveEventsResult)
         }
     }
+    
+    func getFavoriteStatus(for event: Event, completion: (Result<Bool, StorageError>) -> Void) {
+        storageManager.getFavoriteStatus(for: event) { (favoriteResult) in
+            completion(favoriteResult)
+        }
+    }
+    
+    func updateFavoriteStatus(model: EventModel) {
+        storageManager.update(model: model)
+    }
 }
 
-// MARK: - Network monitoring method 
+// MARK: - Network monitoring method
 extension EventService {
     func startMonitoringNetwork() {
         networkManager.startMonitoring()

@@ -105,8 +105,16 @@ extension EventListViewController: NotificationRegisteringProtocol {
 
 extension EventListViewController: EventTableViewCellDelegate {
     func didSelectFavoriteButton(cell: EventTableViewCell) {
-        if let indexRow = tableView.indexPath(for: cell)?.row {
-            print(indexRow)
+        if let indexPath = tableView.indexPath(for: cell) {
+            let event = viewModel.events[indexPath.row]
+            event.isFavorite = !event.isFavorite
+            
+            // Save new favorite status to CoreData
+            viewModel.updateFavoriteStatusToCoreData(with: event)
+
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+            }
         }
     }
 }

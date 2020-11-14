@@ -53,23 +53,46 @@ class EventsViewModel {
             guard let self = self else { return }
             switch eventListResult {
             case .success(let eventList):
-                self.currentPage = eventList.page
-                self.pageSize = eventList.pageSize
-                self.total = eventList.total
-                
-                let _ = eventList.items.map {
-                    let model = EventDetail(event: $0)
-                    self.events.append(model)
-                    
-                    // Sync to CoreData
-                    self.syncToCoreData(model: model)
-                }
-                self.delegate?.finishFetchingEvents()
+                self.setPaginationProperties(from: eventList)
+                self.mappingEventDetailObject(from: eventList)
                 
             case .failure(let apiError):
                 print("APIError occurs: \(apiError)")
             }
         }
+    }
+    
+    private func setPaginationProperties(from eventList: EventList) {
+        self.currentPage = eventList.page
+        self.pageSize = eventList.pageSize
+        self.total = eventList.total
+    }
+    
+    private func mappingEventDetailObject(from eventList: EventList) {
+        for event in eventList.items {
+            getFavoriteStatusAndMap(to: event)
+        }
+        self.delegate?.finishFetchingEvents()
+    }
+    
+    private func getFavoriteStatusAndMap(to event: Event) {
+        eventService.getFavoriteStatus(for: event) { (favoriteResult) in
+            switch favoriteResult {
+            case .success(let isFavorite):
+                let model = EventDetail(event: event, isFavorite: isFavorite)
+                self.events.append(model)
+                
+                // Sync to CoreData
+                self.syncToCoreData(model: model)
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func updateFavoriteStatusToCoreData(with model: EventModel) {
+        eventService.updateFavoriteStatus(model: model)
     }
     
     private func syncToCoreData(model: EventModel) {

@@ -83,7 +83,7 @@ class EventTableViewCell: UITableViewCell {
         titleLabel.text = item.title
         dateLabel.text = item.date
         thumbnailView.kf.setImage(with: URL(string: item.image))
-        let favoriteBtnTitle = item.isFavorite ? "Favorite" : "Unfavorite"
+        let favoriteBtnTitle = (item.isFavorite) ? "Favorite" : "Unfavorite"
         favoriteButton.setTitle(favoriteBtnTitle, for: .normal)
     }
     

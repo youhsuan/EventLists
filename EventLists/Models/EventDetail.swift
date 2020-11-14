@@ -15,16 +15,11 @@ protocol EventModel {
 
 class EventDetail: EventModel {
     var event: Event
-    var isFavorite: Bool {
-        get {
-            // TOFIX: Get from CoreData
-           return false
-        }
-        set{ }
-    }
+    var isFavorite: Bool
     
-    init(event: Event) {
+    init(event: Event, isFavorite: Bool) {
         self.event = event
+        self.isFavorite = isFavorite
     }
     
     init?(_ object: NSManagedObject) {

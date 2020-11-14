@@ -17,4 +17,5 @@ enum APIError: Error {
 enum StorageError: Error {
     case checkExistFailed
     case retrieveFailed
+    case getFavoriteStatusFailed
 }

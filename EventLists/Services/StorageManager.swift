@@ -13,6 +13,7 @@ protocol StorageManagerProtocol {
     func save(model: EventModel)
     func update(model: EventModel)
     func retrieve(completion: (Result<[EventDetail], StorageError>) -> Void)
+    func getFavoriteStatus(for event: Event, completion: (Result<Bool, StorageError>) -> Void)
 }
 
 class StorageManager: StorageManagerProtocol {
@@ -52,7 +53,7 @@ class StorageManager: StorageManagerProtocol {
                 managedObject.setValue(model.event.title, forKey: "title")
                 managedObject.setValue(model.event.image, forKey: "image")
                 managedObject.setValue(model.event.startDate, forKey: "date")
-                managedObject.setValue(false, forKey: "isFavorite") // Init save false to isFavorite
+                managedObject.setValue(false, forKey: "isFavorite") // isFavorite` initial status is false.
                 
                 self.saveContext()
             }
@@ -83,6 +84,22 @@ class StorageManager: StorageManagerProtocol {
             completion(.success(events))
         } catch {
             completion(.failure(StorageError.retrieveFailed))
+        }
+    }
+    
+    func getFavoriteStatus(for event: Event, completion: (Result<Bool, StorageError>) -> Void) {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedEvent")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", event.id)
+        do {
+            let events = try backgroundContext.fetch(fetchRequest).compactMap { EventDetail($0) }
+            if let isFavorite = events.first?.isFavorite {
+                completion(.success(isFavorite))
+                return
+            }
+            completion(.failure(StorageError.getFavoriteStatusFailed))
+
+        } catch {
+            completion(.failure(StorageError.getFavoriteStatusFailed))
         }
     }
     
