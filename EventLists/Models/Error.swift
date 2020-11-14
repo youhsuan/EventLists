@@ -13,3 +13,7 @@ enum APIError: Error {
     case invalidData
     case invalidResponse
 }
+
+enum StorageError: Error {
+    case fetchFailed
+}

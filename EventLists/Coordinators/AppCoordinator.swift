@@ -9,6 +9,13 @@ import Foundation
 
 class AppCoordinator {
     
-    let eventService = EventService(apiManager: APIManager())
+    let apiManager = APIManager()
+    let storageManager = StorageManager()
+    
+    let eventService: EventService
+    
+    init() {
+        eventService = EventService(apiManager: apiManager, storageManager: storageManager)
+    }
     
 }

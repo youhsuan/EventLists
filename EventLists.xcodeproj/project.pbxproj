@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,6 +23,7 @@
 		0957988C255FA29300F2BBE8 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0957988B255FA29300F2BBE8 /* EventService.swift */; };
 		09579891255FBCE300F2BBE8 /* EventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09579890255FBCE300F2BBE8 /* EventListViewController.swift */; };
 		09579897255FBD0D00F2BBE8 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09579896255FBD0D00F2BBE8 /* AppCoordinator.swift */; };
+		095798DE255FD5E400F2BBE8 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095798DD255FD5E400F2BBE8 /* StorageManager.swift */; };
 		249A7A2999BBB6F8A0E3438C /* Pods_EventLists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA84156808F66C7DAA50231B /* Pods_EventLists.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		0957988B255FA29300F2BBE8 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		09579890255FBCE300F2BBE8 /* EventListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListViewController.swift; sourceTree = "<group>"; };
 		09579896255FBD0D00F2BBE8 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		095798DD255FD5E400F2BBE8 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		20944CBF463B6E2A5B4B62A8 /* Pods-EventListsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventListsTests.debug.xcconfig"; path = "Target Support Files/Pods-EventListsTests/Pods-EventListsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		637265980020CE51FFB57F79 /* Pods-EventLists.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventLists.debug.xcconfig"; path = "Target Support Files/Pods-EventLists/Pods-EventLists.debug.xcconfig"; sourceTree = "<group>"; };
 		69A2434D1607DCBCB666F96E /* Pods-EventLists.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventLists.release.xcconfig"; path = "Target Support Files/Pods-EventLists/Pods-EventLists.release.xcconfig"; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				0957986A255F9BD600F2BBE8 /* APIManager.swift */,
+				095798DD255FD5E400F2BBE8 /* StorageManager.swift */,
 				0957988B255FA29300F2BBE8 /* EventService.swift */,
 			);
 			path = Services;
@@ -225,7 +228,6 @@
 				20944CBF463B6E2A5B4B62A8 /* Pods-EventListsTests.debug.xcconfig */,
 				0567ABFF613A2A1EB6FD38D6 /* Pods-EventListsTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -414,6 +416,7 @@
 				09579882255F9ED300F2BBE8 /* EventList.swift in Sources */,
 				09579802255F91B300F2BBE8 /* SceneDelegate.swift in Sources */,
 				0957986B255F9BD600F2BBE8 /* APIManager.swift in Sources */,
+				095798DE255FD5E400F2BBE8 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

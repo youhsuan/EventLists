@@ -7,11 +7,25 @@
 
 import Foundation
 
+protocol EventModel {
+//    var id: String { get }
+//    var title: String { get }
+//    var image: String { get }
+//    var startDate: Int { get }
+    var event: Event { get }
+    var isFavorite: Bool { get }
+}
+
+struct EventFullInfo: EventModel {
+    var event: Event
+    var isFavorite: Bool
+}
+
 struct Event: Decodable {
-    let id: String
-    let title: String
-    let image: String
-    let startDate: Int
+    var id: String
+    var title: String
+    var image: String
+    var startDate: Int
 }
 
 extension Event: EventCellDisplayable {
@@ -19,6 +33,7 @@ extension Event: EventCellDisplayable {
         return String(startDate)
     }
     var isFavorite: Bool {
+        //TOFIX: Should get from CoreData
         return false
     }
 }

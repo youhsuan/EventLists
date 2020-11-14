@@ -41,6 +41,12 @@ class EventsViewModel {
                 
                 self.events += eventList.items
                     
+                // Save to CoreData
+                let _ = eventList.items.map {
+                    let model = EventFullInfo(event: $0, isFavorite: false)
+                    self.syncToCoreData(model: model)
+                }
+                
                 self.delegate?.finishFetchingEvents()
             case .failure(let apiError):
                 print("APIError occurs: \(apiError)")
@@ -48,7 +54,9 @@ class EventsViewModel {
         }
     }
     
-    
+    private func syncToCoreData(model: EventModel) {
+        eventService.syncToCoreData(model: model)
+    }
 }
 
 // MARK: - Pagination
