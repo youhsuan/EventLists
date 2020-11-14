@@ -9,6 +9,8 @@ import UIKit
 
 protocol EventCellDisplayable {
     var title: String { get }
+    var date: String { get }
+    var image: String { get }
     var isFavorite: Bool { get }
 }
 
@@ -61,6 +63,7 @@ class EventTableViewCell: UITableViewCell {
 
     func setDisplayableItem(_ item: EventCellDisplayable) {
         titleLabel.text = item.title
+        dateLabel.text = item.date
         favoriteLabel.text = item.isFavorite ? "Favorite" : "Unfavorite"
     }
     

@@ -1,5 +1,4 @@
-//
-//  ViewController.swift
+//  EventListViewController.swift
 //  EventLists
 //
 //  Created by YOU-HSUAN YU on 2020/11/14.
@@ -8,6 +7,17 @@
 import UIKit
 
 class EventListViewController: UIViewController {
+
+    var viewModel: EventsViewModel?
+    
+    init(viewModel: EventsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -17,9 +27,11 @@ class EventListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Events"
-        setupView()
+        viewModel?.fetchEvents()
+        viewModel?.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
+        setupView()
     }
 
     func setupView() {
@@ -43,14 +55,18 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel?.events.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(EventTableViewCell.self)", for: indexPath) as? EventTableViewCell else {
+        guard
+            let cell = tableView.dequeueReusableCell(withIdentifier: "\(EventTableViewCell.self)", for: indexPath) as? EventTableViewCell,
+            let item = viewModel?.events[indexPath.row]
+        else {
             return UITableViewCell()
         }
         
+        cell.setDisplayableItem(item)
         
         return cell
     }
@@ -58,4 +74,10 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-
+extension EventListViewController: EventsViewModelDelegate {
+    func finishFetchingEvents() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+}
