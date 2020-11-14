@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol EventCellDisplayable {
     var title: String { get }
@@ -19,6 +20,7 @@ class EventTableViewCell: UITableViewCell {
     private let thumbnailView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         imageView.backgroundColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -65,6 +67,7 @@ class EventTableViewCell: UITableViewCell {
         titleLabel.text = item.title
         dateLabel.text = item.date
         favoriteLabel.text = item.isFavorite ? "Favorite" : "Unfavorite"
+        thumbnailView.kf.setImage(with: URL(string: item.image))
     }
     
     func setupView() {
