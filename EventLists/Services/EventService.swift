@@ -12,6 +12,7 @@ protocol EventServiceProtocol {
     var storageManager: StorageManagerProtocol { get }
     func fetchEvents(by page: String, completion: @escaping (Result<EventList, APIError>) -> Void)
     func syncToCoreData(model: EventModel)
+    func retrieveEventsFromCoreData(completion: (Result<[EventDetail], StorageError>) -> Void)    
 }
 
 class EventService: EventServiceProtocol {
@@ -34,7 +35,6 @@ class EventService: EventServiceProtocol {
             switch checkExistedResult {
             case .success(let isExisted):
                 if isExisted {
-                    // If existed, then update event.
                     storageManager.update(model: model)
                 } else {
                     storageManager.save(model: model)
@@ -44,6 +44,11 @@ class EventService: EventServiceProtocol {
                 print(error)
             }
         }
-        
+    }
+    
+    func retrieveEventsFromCoreData(completion: (Result<[EventDetail], StorageError>) -> Void) {
+        storageManager.retrieve { (retrieveEventsResult) in
+            completion(retrieveEventsResult)
+        }
     }
 }

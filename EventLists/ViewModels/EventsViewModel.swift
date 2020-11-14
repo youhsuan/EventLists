@@ -21,11 +21,23 @@ class EventsViewModel {
     private var pageSize: Int = 0
     private var total: Int = 0
     
-    // Tableview's data source
-    var events: [Event] = []
+    var events: [EventDetail] = []
     
     init(eventService: EventServiceProtocol) {
         self.eventService = eventService
+    }
+    
+    func retrieveEventsFromCoreData() {
+        eventService.retrieveEventsFromCoreData { (result) in
+            switch result {
+            case .success(let eventsFromLocal):
+                self.events = eventsFromLocal
+                self.delegate?.finishFetchingEvents()
+            case .failure(let error):
+                // TODO: Error-handling
+                print(error)
+            }
+        }
     }
     
     func fetchEvents() {
@@ -39,11 +51,11 @@ class EventsViewModel {
                 self.pageSize = eventList.pageSize
                 self.total = eventList.total
                 
-                self.events += eventList.items
-                    
-                // Save to CoreData
                 let _ = eventList.items.map {
-                    let model = EventFullInfo(event: $0, isFavorite: false)
+                    let model = EventDetail(event: $0)
+                    self.events.append(model)
+                    
+                    // Sync to CoreData
                     self.syncToCoreData(model: model)
                 }
                 

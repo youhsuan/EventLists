@@ -15,5 +15,6 @@ enum APIError: Error {
 }
 
 enum StorageError: Error {
-    case fetchFailed
+    case checkExistFailed
+    case retrieveFailed
 }

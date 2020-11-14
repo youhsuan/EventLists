@@ -12,6 +12,7 @@ protocol StorageManagerProtocol {
     func checkIfExisted(model: EventModel, completion: (Result<Bool, StorageError>) -> Void)
     func save(model: EventModel)
     func update(model: EventModel)
+    func retrieve(completion: (Result<[EventDetail], StorageError>) -> Void)
 }
 
 class StorageManager: StorageManagerProtocol {
@@ -33,15 +34,12 @@ class StorageManager: StorageManagerProtocol {
         fetchRequest.predicate = NSPredicate(format: "id = %@", model.event.id)
         do {
             if let result = try backgroundContext.fetch(fetchRequest) as? [NSManagedObject] {
-                print("====result=====")
-                print("--\(!(result.isEmpty))")
                 completion(.success(!(result.isEmpty)))
                 return
             }
-            print("----check false--")
             completion(.success(false))
         } catch {
-            completion(.failure(StorageError.fetchFailed))
+            completion(.failure(StorageError.checkExistFailed))
         }
     }
     
@@ -54,21 +52,49 @@ class StorageManager: StorageManagerProtocol {
                 managedObject.setValue(model.event.title, forKey: "title")
                 managedObject.setValue(model.event.image, forKey: "image")
                 managedObject.setValue(model.event.startDate, forKey: "date")
+                managedObject.setValue(false, forKey: "isFavorite") // Init save false to isFavorite
                 
-                if self.backgroundContext.hasChanges {
-                    do {
-                        try self.backgroundContext.save()
-                    } catch {
-                        let nserror = error as NSError
-                        print("Unresolved error \(nserror), \(nserror.userInfo)")
-                    }
-                }
+                self.saveContext()
             }
         }
     }
     
     func update(model: EventModel) {
-        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SavedEvent")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", model.event.id)
+        do {
+            if let eventObject = try backgroundContext.fetch(fetchRequest).first as? NSManagedObject {
+                eventObject.setValue(model.event.title, forKey: "title")
+                eventObject.setValue(model.event.image, forKey: "image")
+                eventObject.setValue(model.event.startDate, forKey: "date")
+                eventObject.setValue(model.isFavorite, forKey: "isFavorite")
+                
+                self.saveContext()
+            }
+        } catch {
+            print("====CoreData update failed.")
+        }
+    }
+    
+    func retrieve(completion: (Result<[EventDetail], StorageError>) -> Void) {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedEvent")
+        do {
+            let events = try backgroundContext.fetch(fetchRequest).compactMap { EventDetail($0) }
+            completion(.success(events))
+        } catch {
+            completion(.failure(StorageError.retrieveFailed))
+        }
+    }
+    
+    private func saveContext() {
+        if self.backgroundContext.hasChanges {
+            do {
+                try self.backgroundContext.save()
+            } catch {
+                let nserror = error as NSError
+                print("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
     
     

@@ -27,7 +27,9 @@ class EventListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Events"
-        viewModel.fetchEvents()
+//        viewModel.fetchEvents()
+        viewModel.retrieveEventsFromCoreData()
+        
         viewModel.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
