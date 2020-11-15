@@ -32,7 +32,6 @@ $ open EventLists.xcworkspace
 * Swift 5.3
 
 ## Architecture
-
 ### M-V-VM
 
 ## Structure
@@ -52,7 +51,8 @@ $ open EventLists.xcworkspace
     - In the future, if we need to navigate from page to page, this is the place that responsible for the navigation flow.
 
 ### ViewModel:
-1.  `EventsViewModel` is reponsible for the logic. For example:
+1.  `EventsViewModel` is reponsible for the logic. 
+For example:
 
     - Judging the network connection status and call method accordingly.
     - Update query parameter `page` value when user scrolls to the bottom.
@@ -64,7 +64,7 @@ $ open EventLists.xcworkspace
 3. `APIError` and `StorageError` are models unrelated to UI.
 
 ### Views:
-1. `EventListViewController` and `EventTableViewCell` are responsible for UI related code, and user interaction as well. They won't be communicated with other services except the viewModel.
+1. `EventListViewController` and `EventTableViewCell` are responsible for UI related code, and user interaction as well. They will only communicate with viewModel, not other services.
 
 
 ## Design pattern
