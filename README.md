@@ -23,8 +23,8 @@ $ open EventLists.xcworkspace
 
 ## Environment
 
-* macOS Catalina 10.15.6
 * Xcode 12.0.1
+* macOS Catalina 10.15.6
 * CocoaPods 1.9.3
 
 ## Language
@@ -37,21 +37,26 @@ $ open EventLists.xcworkspace
 
 ## Structure
 
-### Coordinator:
-1. `AppCoordinator` owns the services to make sure that we are operating the same service through out the entire app, and this can be accomplished by using dependency injection.
-
 ### Services:
 1.  `APIManager` is responsible for fetching the data through endpoint.
 2.  `StorageManager` is responsible for handling CoreData framework.
 3.  `NetworkManager` is responsible for monitoring the network status.
-4.  `EventService` is responsible for managing the above listed managers, and will be injected into view model object.
+4.  `EventService` is responsible for managing the above listed managers, and will be injected into viewModel object.
+
+### Coordinator:
+1. `AppCoordinator`:
+
+    -  `start` method indicates the first entry page of the app.
+    - By creating manager in this class, we can ensure there is only one manager object thoughout the app. (ex: APIManager, StorageManager and NetworkManager)
+       That is because those managers are injected into `EventService` object, and then `EventService` is injected into ViewModel.
+    - In the future, if we need to navigate from page to page, this is the place that responsible for the navigation flow.
 
 ### ViewModel:
 1.  `EventsViewModel` is reponsible for the logic. For example:
 
-        - Judging the network connection status and call method accordingly.
-        - Update query parameter `page` value when user scrolls to the bottom.
-        - Call `updateFavoriteStatus` method when user tapped favorite button.
+    - Judging the network connection status and call method accordingly.
+    - Update query parameter `page` value when user scrolls to the bottom.
+    - Call `updateFavoriteStatus` method when user tapped favorite button.
 
 ### Models:
 1. `EventList` and `Event` are conform to `Decodable`, which are able to decode from server response.
