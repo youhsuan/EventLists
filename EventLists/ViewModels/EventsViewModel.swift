@@ -29,6 +29,7 @@ class EventsViewModel {
     
     func fetchData() {
         if eventService.isConnectedToNetwork() {
+            clearData()
             fetchEvents()
         } else {
             retrieveEventsFromCoreData()
@@ -60,6 +61,11 @@ class EventsViewModel {
                 print("APIError occurs: \(apiError)")
             }
         }
+    }
+    
+    private func clearData() {
+        events = []
+        currentPage = 0
     }
     
     private func setPaginationProperties(from eventList: EventList) {
