@@ -63,7 +63,9 @@ class EventTableViewCell: UITableViewCell {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 14)
         button.setTitleColor(.black, for: .normal)
-        button.contentHorizontalAlignment = .right
+        button.contentHorizontalAlignment = .center
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -84,7 +86,9 @@ class EventTableViewCell: UITableViewCell {
         dateLabel.text = item.date
         thumbnailView.kf.setImage(with: URL(string: item.image))
         let favoriteBtnTitle = (item.isFavorite) ? "Favorite" : "Unfavorite"
+        let favoriteTitleColor: UIColor = (item.isFavorite) ? .red : .black
         favoriteButton.setTitle(favoriteBtnTitle, for: .normal)
+        favoriteButton.setTitleColor(favoriteTitleColor, for: .normal)
     }
     
     @objc func didSelectFavoriteButton(sender: UIButton) {
@@ -107,14 +111,14 @@ class EventTableViewCell: UITableViewCell {
             
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             titleLabel.leadingAnchor.constraint(equalTo: thumbnailView.trailingAnchor, constant: 15),
-            titleLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: 5),
             
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             dateLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: 5),
             
             favoriteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25)
+            favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
 }
