@@ -48,12 +48,11 @@ class StorageManager: StorageManagerProtocol {
         backgroundContext.perform {
             if let entity = NSEntityDescription.entity(forEntityName: "SavedEvent", in: self.backgroundContext) {
                 let managedObject = NSManagedObject(entity: entity, insertInto: self.backgroundContext)
-                
                 managedObject.setValue(model.event.id, forKey: "id")
                 managedObject.setValue(model.event.title, forKey: "title")
                 managedObject.setValue(model.event.image, forKey: "image")
                 managedObject.setValue(model.event.startDate, forKey: "date")
-                managedObject.setValue(false, forKey: "isFavorite") // isFavorite` initial status is false.
+                managedObject.setValue(model.isFavorite, forKey: "isFavorite")
                 
                 self.saveContext()
             }
@@ -72,13 +71,14 @@ class StorageManager: StorageManagerProtocol {
                 
                 self.saveContext()
             }
-        } catch {
-            print("====CoreData update failed.")
+        } catch let error{
+            print("Update CoreData error \(error.localizedDescription)")
         }
     }
     
     func retrieve(completion: (Result<[EventDetail], StorageError>) -> Void) {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SavedEvent")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
         do {
             let events = try backgroundContext.fetch(fetchRequest).compactMap { EventDetail($0) }
             completion(.success(events))
@@ -96,6 +96,7 @@ class StorageManager: StorageManagerProtocol {
                 completion(.success(isFavorite))
                 return
             }
+            // isFavorite data not exist means it's initial save
             completion(.success(false))
 
         } catch {

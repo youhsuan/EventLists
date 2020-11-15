@@ -37,7 +37,8 @@ class EventsViewModel {
     }
     
     private func retrieveEventsFromCoreData() {
-        eventService.retrieveEventsFromCoreData { (result) in
+        eventService.retrieveEventsFromCoreData { [weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let eventsFromLocal):
                 self.events = eventsFromLocal
@@ -55,7 +56,12 @@ class EventsViewModel {
             switch eventListResult {
             case .success(let eventList):
                 self.setPaginationProperties(from: eventList)
-                self.mappingEventDetailObject(from: eventList)
+                
+                for event in eventList.items {
+                    self.createEventDetailObject(from: event)
+                }
+                
+                self.delegate?.finishFetchingEvents()
                 
             case .failure(let apiError):
                 print("APIError occurs: \(apiError)")
@@ -74,21 +80,14 @@ class EventsViewModel {
         self.total = eventList.total
     }
     
-    private func mappingEventDetailObject(from eventList: EventList) {
-        for event in eventList.items {
-            getFavoriteStatusAndMap(to: event)
-        }
-        self.delegate?.finishFetchingEvents()
-    }
-    
-    private func getFavoriteStatusAndMap(to event: Event) {
-        eventService.getFavoriteStatus(for: event) { (favoriteResult) in
+    private func createEventDetailObject(from event: Event) {
+        eventService.getFavoriteStatus(for: event) { [weak self] (favoriteResult) in
+            guard let self = self else { return }
             switch favoriteResult {
             case .success(let isFavorite):
                 let model = EventDetail(event: event, isFavorite: isFavorite)
                 self.events.append(model)
                 
-                // Sync to CoreData
                 self.syncToCoreData(model: model)
                 
             case .failure(let error):
