@@ -96,7 +96,7 @@ class StorageManager: StorageManagerProtocol {
                 completion(.success(isFavorite))
                 return
             }
-            completion(.failure(StorageError.getFavoriteStatusFailed))
+            completion(.success(false))
 
         } catch {
             completion(.failure(StorageError.getFavoriteStatusFailed))
