@@ -46,6 +46,7 @@ extension EventDetail: EventCellDisplayable {
     }
     
     var date: String {
-        return String(event.startDate)
+        let dateString = String(event.startDate)
+        return dateString.dateFormatted(pattern: "EEEE HH:mm")
     }
 }

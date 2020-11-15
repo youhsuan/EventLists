@@ -42,7 +42,7 @@ class EventTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = "title"
         label.textColor = .black
-        label.font = .systemFont(ofSize: 14)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -52,7 +52,7 @@ class EventTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = "date"
         label.textColor = .black
-        label.font = .systemFont(ofSize: 14)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         label.textAlignment = .left
         label.sizeToFit()
         label.translatesAutoresizingMaskIntoConstraints = false
