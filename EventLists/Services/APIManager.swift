@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum Endpoint: String {
+    case events = "https://us-central1-techtaskapi.cloudfunctions.net/events"
+}
+
 protocol APIManagerProtocol {
     func fetchEvents(by page: String, completion: @escaping (Result<EventList, APIError>) -> Void)
 }
@@ -14,7 +18,13 @@ protocol APIManagerProtocol {
 class APIManager: APIManagerProtocol {
     
     func fetchEvents(by page: String, completion: @escaping (Result<EventList, APIError>) -> Void) {
-        var component = URLComponents(string: "https://us-central1-techtaskapi.cloudfunctions.net/events")
+        fetch(by: page, endpoint: Endpoint.events.rawValue) { (eventListResult: Result<EventList, APIError>)  in
+            completion(eventListResult)
+        }
+    }
+    
+    func fetch<T: Decodable>(by page: String, endpoint: String, completion: @escaping (Result<T, APIError>) -> Void) {
+        var component = URLComponents(string: endpoint)
         component?.queryItems = [
             URLQueryItem(name: "page", value: "\(page)")
         ]
@@ -40,8 +50,8 @@ class APIManager: APIManagerProtocol {
             }
             do {
                 let decoder = JSONDecoder()
-                let eventList = try decoder.decode(EventList.self, from: data)
-                completion(.success(eventList))
+                let objects = try decoder.decode(T.self, from: data)
+                completion(.success(objects))
             } catch {
                 completion(.failure(APIError.invalidData))
             }
