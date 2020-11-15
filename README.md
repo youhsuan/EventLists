@@ -35,40 +35,6 @@ $ open EventLists.xcworkspace
 
 ### M-V-VM
 
-### Concept
-
-```
-                                        +----------------+
-                                +------ | StorageManager |
-                                |       +----------------+
-                                |
-        +----------------+      |      +------------+
-        | AppCoordinator |<----------- | APIManager |
-        +-------+--------+      |      +------------+
-                |               |
-                v               |     +----------------+
-+--------------------------+    +-----| NetworkManager |
-|       EventService       |          +----------------+
-+--------------------------+
-                |
-    +----------+------------+
-    |                       |
-    v                       v
-+--------------+    +-----------------+
-|  ViewModel   |    |    ViewModel    |
-+------+-------+    | (In the future) |
-       |            +-----------------+
-       v
-+----------------+
-| ViewController |
-+-------+--------+
-        |
-        v
-   +--------+
-   |  View  |
-   +--------+
-```
-
 ## Structure
 
 ### Coordinator:
@@ -82,9 +48,10 @@ $ open EventLists.xcworkspace
 
 ### ViewModel:
 1.  `EventsViewModel` is reponsible for the logic. For example:
-        * Judging the network connection status and call method accordingly.
-        * Update query parameter `page` value when user scrolls to the bottom.
-        * Call `updateFavoriteStatus` method when user tapped favorite button.
+
+        - Judging the network connection status and call method accordingly.
+        - Update query parameter `page` value when user scrolls to the bottom.
+        - Call `updateFavoriteStatus` method when user tapped favorite button.
 
 ### Models:
 1. `EventList` and `Event` are conform to `Decodable`, which are able to decode from server response.
