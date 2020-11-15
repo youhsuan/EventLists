@@ -73,9 +73,11 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(EventTableViewCell.self)", for: indexPath) as? EventTableViewCell else {
             return UITableViewCell()
         }
-        let item = viewModel.events[indexPath.row]
-        cell.delegate = self
-        cell.item = item
+        if viewModel.events.count > 0 {
+            let item = viewModel.events[indexPath.row]
+            cell.delegate = self
+            cell.item = item
+        }
         return cell
     }
     
@@ -89,6 +91,7 @@ extension EventListViewController: EventsViewModelDelegate {
     func finishFetchingEvents() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.tableView.layoutIfNeeded()
         }
     }
 }
